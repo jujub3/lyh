@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>寻宝冒险</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0a0e17;
+      color: #4ade80;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    #log {
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+    .step {
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🗺️ 寻宝冒险</h1>
+  <div id="log"></div>
+
+  <script>
+    // 把 TreasureMap 类和逻辑放在这里（浏览器兼容版）
+    class TreasureMap {
+      static getInitialClue() {
+        return new Promise(resolve => setTimeout(() => resolve("在古老的图书馆里找到了第一个线索..."), 1000));
+      }
+      static decodeAncientScript(clue) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (!clue) reject("没有线索可以解码!");
+            resolve("解码成功!宝藏在一座古老的神庙中...");
+          }, 1500);
+        });
+      }
+      static exploreMysteriousCave() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (Math.random() < 0.3) reject("在洞穴中迷失了方向！");
+            resolve("从神秘的洞穴中找到了一张古老的地图...");
+          }, 2500);
+        });
+      }
+      static solveRiddle() {
+        return new Promise(resolve => setTimeout(() => resolve("解开了谜语，发现了隐藏的钥匙..."), 1800));
+      }
+      static findSecretDoor() {
+        return new Promise(resolve => setTimeout(() => resolve("用钥匙打开了密室的门..."), 2200));
+      }
+      static searchTemple() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (Math.random() < 0.5) reject("糟糕!遇到了神庙守卫!");
+            resolve("找到了一个神秘的箱子...");
+          }, 2000);
+        });
+      }
+      static openTreasureBox() {
+        return new Promise(resolve => setTimeout(() => resolve("🎉 恭喜!你找到了传说中的宝藏!"), 1000));
+      }
+    }
+
+    async function findTreasure() {
+      const log = document.getElementById('log');
+      const addLog = (msg) => {
+        const div = document.createElement('div');
+        div.className = 'step';
+        div.textContent = msg;
+        log.appendChild(div);
+        div.style.animationDelay = log.children.length * 0.3 + 's';
+      };
+
+      try {
+        addLog("🔍 开始寻宝...");
+        let clue = await TreasureMap.getInitialClue();
+        addLog(clue);
+
+        let loc = await TreasureMap.decodeAncientScript(clue);
+        addLog(loc);
+
+        let cave = await TreasureMap.exploreMysteriousCave();
+        addLog(cave);
+
+        let riddle = await TreasureMap.solveRiddle();
+        addLog(riddle);
+
+        let door = await TreasureMap.findSecretDoor();
+        addLog(door);
+
+        let box = await TreasureMap.searchTemple();
+        addLog(box);
+
+        let treasure = await TreasureMap.openTreasureBox();
+        addLog(treasure);
+      } catch (err) {
+        addLog("❌ 任务失败: " + err);
+      }
+    }
+
+    findTreasure();
+  </script>
+</body>
+</html>
